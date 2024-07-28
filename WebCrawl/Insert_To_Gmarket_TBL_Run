@@ -1,0 +1,22 @@
+package oracledb;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+public class Insert_To_Gmarket_TBL_Run {
+
+    public static void main(String[] args) {
+        DBConnection dbConnection = new DBConnection();
+        CSVReader csvReader = new CSVReader();
+        PreparedStatementUtil preparedStatementUtil = new PreparedStatementUtil();
+
+        try (Connection connection = dbConnection.getConnection()) {
+            csvReader.readCSV("C:/oraclexe/Gmarket2_table_Noindex.csv", gmarket -> {
+                preparedStatementUtil.insertGmarketRecord(connection, gmarket);
+            });
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Database connection error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}
